@@ -1,5 +1,5 @@
 # crowd-counting
-Contains code developed during diploma work.
+Contains code related to my diploma work.
 
 # References:
 ultralytics/ultralytics: [YOLOv8](https://github.com/ultralytics/ultralytics)
