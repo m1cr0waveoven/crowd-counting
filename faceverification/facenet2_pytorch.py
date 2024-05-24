@@ -1,0 +1,111 @@
+from facenet_pytorch import MTCNN, InceptionResnetV1
+from PIL import Image
+import torch
+# from mtcnn import MTCNN
+def setup():
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    print('Running on device: {}'.format(device))
+    mtcnn = MTCNN(image_size=160, margin=0, device='cpu')
+    resnet = InceptionResnetV1(pretrained='vggface2').eval()
+    return mtcnn, resnet
+
+def get_face_embedings(img: Image, resnet):
+    return resnet(img.unsqueeze(0))
+
+def open_image(path: str) -> Image:
+    return Image.open(path).convert("RGB")
+
+def detect_face(img: Image, mtcnn, saveIndex: int):
+    return mtcnn(img, save_path=f"save_{saveIndex}.jpg")
+
+def get_distance(embedingNew, embedingKnown):
+    return torch.dist(embedingNew, embedingKnown)
+    
+def main() -> None:
+    mtcnn, resnet = setup()
+    known = open_image("known_face.jpg")
+    different = open_image("different_face2.jpg")
+    save_1_5 = open_image("save_1_5.jpg")
+
+    person1_51 = open_image("person1_51.jpg")
+    person1_69 = open_image("person1_69.jpg")
+    person2_10 = open_image("person2_10.jpg")
+    person2_28 = open_image("person2_28.jpg")
+    person2_1 = open_image("person2_1.jpg")
+    person2_57 = open_image("person2_57.jpg")
+    person3_150 = open_image("person3_150.jpg")
+    person3_155 = open_image("person3_155.jpg")
+
+    person1_51 = detect_face(person1_51, mtcnn, 151)
+    person1_69 = detect_face(person1_69, mtcnn, 169)
+    person2_10 = detect_face(person2_10, mtcnn, 210)
+    person2_28 = detect_face(person2_28, mtcnn, 228)
+    person2_1 = detect_face(person2_1, mtcnn, 21)
+    known = detect_face(known, mtcnn, 1)
+    different = detect_face(different, mtcnn, 2)
+    save_1_5 = detect_face(save_1_5, mtcnn, 2)
+    person2_57 = detect_face(person2_57, mtcnn, 257)
+    person3_150 = detect_face(person3_150, mtcnn, 3150)
+    person3_155 = detect_face(person3_155, mtcnn, 3115)
+
+    # embeding1_51 = get_face_embedings(person1_51, resnet)
+    # embeding1_69 = get_face_embedings(person1_69, resnet)
+    embeding2_10 = get_face_embedings(person2_10, resnet)
+    embeding2_28 = get_face_embedings(person2_28, resnet)
+    embeding2_57 = get_face_embedings(person2_57, resnet)
+    embeding2_1 = get_face_embedings(person2_1, resnet)
+    embeding_known = get_face_embedings(known, resnet)
+    embeding_different = get_face_embedings(different, resnet)
+    embeding_save_1_5 = get_face_embedings(save_1_5, resnet)
+    embeding_3_150 = get_face_embedings(person3_150, resnet)
+    embeding_3_155 = get_face_embedings(person3_155, resnet)
+    # embeding_loaded = torch.load('tensor1.pt')
+    # embeding2 = get_face_embedings(img2, resnet)
+    # torch.save(embeding2, 'tensor2.pt')
+    # dist1 = get_distance(embeding1_51, embeding1_69)
+    dist2 = get_distance(embeding2_10, embeding2_28)
+    # dist12_51_10 = get_distance(embeding1_51, embeding2_10)
+    # dist12_51_28 = get_distance(embeding1_51, embeding2_28)
+    # dist12_69_10 = get_distance(embeding1_69, embeding2_10)
+    # dist12_69_28 = get_distance(embeding1_69, embeding2_28)
+    dist2_10_know = get_distance(embeding2_10, embeding_known)
+    dist2__10_different= get_distance(embeding2_10, embeding_different)
+    dist2_28_know = get_distance(embeding2_28, embeding_known)
+    dist2__28_different= get_distance(embeding2_28, embeding_different)
+    dist_know_different= get_distance(embeding_known, embeding_different)
+    dist_2_10_different= get_distance(embeding2_10, embeding_save_1_5)
+    dist_2_28_different= get_distance(embeding2_28, embeding_save_1_5)
+    dist_2_10_2_57= get_distance(embeding2_10, embeding2_57)
+    dist_2_28_2_57= get_distance(embeding2_28, embeding2_57)
+    dist_2_10_2_1= get_distance(embeding2_10, embeding2_1)
+    dist_2_28_2_1= get_distance(embeding2_28, embeding2_1)
+    dist_2_10_3_155= get_distance(embeding2_10, embeding_3_155)
+    dist_2_28_3_155= get_distance(embeding2_28, embeding_3_155)
+    dist_2_10_3_150= get_distance(embeding2_10, embeding_3_150)
+    dist_2_28_3_150= get_distance(embeding2_28, embeding_3_150)
+    dist_3_150_3_155= get_distance(embeding_3_150, embeding_3_155)
+    # print(f"{dist1=}")
+    print(f"{dist2=}")
+    # print(f"{dist12_51_10=}")
+    # print(f"{dist12_51_28=}")
+    # print(f"{dist12_69_10=}")
+    # print(f"{dist12_69_28=}")
+
+    print(f"{dist2_10_know=}")
+    print(f"{dist2__10_different=}")
+    print(f"{dist2_28_know=}")
+    print(f"{dist2__28_different=}")
+    print(f"{dist_know_different=}")
+    print(f"{dist_2_10_different=}")
+    print(f"{dist_2_28_different=}")
+    print(f"{dist_2_10_2_57=}")
+    print(f"{dist_2_28_2_57=}")
+    print(f"{dist_2_10_2_1=}")
+    print(f"{dist_2_28_2_1=}")
+    print(f"{dist_2_10_3_155=}")
+    print(f"{dist_2_28_3_155=}")
+    print(f"{dist_2_10_3_150=}")
+    print(f"{dist_2_28_3_150=}")
+    print(f"{dist_3_150_3_155=}")
+if __name__ == "__main__":
+    main()
