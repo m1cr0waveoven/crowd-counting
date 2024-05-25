@@ -10,9 +10,14 @@ Folders:
   
   transfer python object over TCP: contains two scripts client and server. Simple demonstration, how to send a complex Python object through a TCP connnection.
 
-    CrowdCounting.py:
+  CrowdCounting.py: the Python script that count people, the entry point of the application. Uses UnifiedFeatureExtractor.py
+
+  UnifiedFeatureExtractor.py: unifies the facial feature embeding extration (FaceNet) with deep feature extraction for person re-identification.
+
+  re-id.py: used for experimnets with preson re-identification using Torchreid.
 
 References:
+
 ultralytics/ultralytics: [YOLOv8](https://github.com/ultralytics/ultralytics)
 
 timesler/facenet-pytorch: [facenet-pytorch](https://github.com/timesler/facenet-pytorch)
