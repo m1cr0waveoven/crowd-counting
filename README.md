@@ -17,7 +17,7 @@ Contains code related to my diploma work.
 
   re-id.py: used for experimnets with preson re-identification using Torchreid.
 
-References:
+## References:
 
 ultralytics/ultralytics: [YOLOv8](https://github.com/ultralytics/ultralytics)
 
