@@ -1,7 +1,8 @@
 # crowd-counting
 Contains code related to my diploma work.
 
-Folders:
+## Folders:
+
   YOLOv8_benchmark: contains script the was used to measure the performance of different expoter models
   
   face-detection: contains code that was initialy developed to detect faces on video.
