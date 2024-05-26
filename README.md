@@ -1,7 +1,7 @@
 # crowd-counting
 Contains code related to my diploma work.
 
-## Folders:
+## Folders
 
   YOLOv8_benchmark: contains script the was used to measure the performance of different expoter models
   
@@ -17,7 +17,7 @@ Contains code related to my diploma work.
 
   re-id.py: used for experimnets with preson re-identification using Torchreid.
 
-## References:
+## References
 
 ultralytics/ultralytics: [YOLOv8](https://github.com/ultralytics/ultralytics)
 
